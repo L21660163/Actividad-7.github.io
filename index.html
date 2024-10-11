@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporizador con setInterval</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #e8f5e9, #c8e6c9); /* Degradado verde pastel */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Olas verdes */
+        .waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px; /* Altura ajustada para mejor visibilidad */
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none"><path fill="%2307b007" d="M0,64L60,58.7C120,53,240,43,360,43.3C480,43,600,53,720,64C840,75,960,85,1080,85.3C1200,85,1320,75,1380,70L1440,64L1440,200L1380,200C1320,200,1200,200,1080,200C960,200,840,200,720,200C600,200,480,200,360,200C240,200,120,200,60,200L0,200Z"></path></svg>') repeat-x; /* Ondas verdes */
+            opacity: 0.8; /* Mayor opacidad para un efecto más sólido */
+            z-index: 0; /* Asegura que las olas estén detrás del contenido */
+        }
+
+        #timer-container {
+            text-align: center;
+            background-color: #81c784; /* Fondo verde pastel */
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1; /* Asegura que esté por encima de las olas */
+            max-width: 90%; /* Ancho máximo para dispositivos pequeños */
+        }
+
+        h1 {
+            font-size: 2rem; /* Tamaño del título */
+            margin-bottom: 20px; /* Espacio debajo del título */
+        }
+
+        #countdown {
+            font-size: 80px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        #message {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #388e3c; /* Fondo verde más oscuro */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2e7d32; /* Color más oscuro al pasar el cursor */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="waves"></div> <!-- Olas verdes en el fondo -->
+
+    <div id="timer-container">
+        <h1>Temporizador con setInterval</h1> <!-- Título centrado -->
+        <p id="countdown">50</p>
+        <p id="message">El temporizador finalizará pronto.</p>
+        <button id="pauseBtn">Pausar</button>
+        <button id="resetBtn">Reiniciar</button>
+    </div>
+
+    <script>
+        let countdownValue = 50;
+        let intervalId;
+        const countdownElement = document.getElementById('countdown');
+        const messageElement = document.getElementById('message');
+
+        function startTimer() {
+            intervalId = setInterval(function() {
+                countdownValue--;  // Disminuye el valor de countdownValue en 1
+                countdownElement.textContent = countdownValue;  // Actualiza el contenido de la pantalla
+
+                // Cuando llega a 0, detener el temporizador y mostrar un mensaje final
+                if (countdownValue <= 0) {
+                    clearInterval(intervalId);  // Detiene el setInterval
+                    countdownElement.textContent = '¡Tiempo agotado!';  // Cambia el texto del temporizador
+                    messageElement.textContent = 'El temporizador ha finalizado.';  // Muestra un mensaje final
+                }
+            }, 1000);  // Cada 1000 milisegundos (1 segundo)
+        }
+
+        // Llamamos a startTimer para iniciar el temporizador
+        startTimer();
+
+        // Evento para pausar el temporizador
+        document.getElementById('pauseBtn').addEventListener('click', function() {
+            clearInterval(intervalId); // Detiene el temporizador
+        });
+
+        // Evento para reiniciar el temporizador
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            clearInterval(intervalId); // Detiene el temporizador
+            countdownValue = 50; // Reinicia el valor del temporizador
+            countdownElement.textContent = countdownValue; // Actualiza el display
+            messageElement.textContent = 'El temporizador finalizará pronto.'; // Reinicia el mensaje
+            startTimer(); // Vuelve a iniciar el temporizador
+        });
+    </script>
+
+</body>
+</html>
